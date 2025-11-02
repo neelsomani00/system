@@ -174,19 +174,6 @@
             to { box-shadow: 0 0 40px var(--sys-neon), 0 0 10px var(--sys-purple); }
         }
 
-        /* Google button style for visual flair */
-        .google-button {
-            background-color: #4285f4;
-            color: white;
-            transition: background-color 0.3s;
-            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.5);
-        }
-
-        .google-button:hover {
-            background-color: #357ae8;
-            box-shadow: 0 6px 20px rgba(66, 133, 244, 0.7);
-        }
-        
     </style>
 </head>
 <body class="dark-mode">
@@ -195,27 +182,15 @@
         <div class="activation-card max-w-lg w-full p-8 md:p-12 rounded-2xl text-center">
             <i class="ph-fill ph-circles-three-plus text-7xl mb-4 text-sys-neon filter-sys-glow-filter"></i>
             <h1 class="text-4xl font-extrabold text-white mb-2">SYSTEM ACTIVATION REQUIRED</h1>
-            <p class="text-lg text-sys-text opacity-80 mb-6">Please choose your method of authentication to initialize the progression matrix.</p>
+            <p class="text-lg text-sys-text opacity-80 mb-6">Please enter your Player Name to initialize the progression matrix.</p>
             
-            <div class="space-y-4">
-                <button id="google-sign-in-button" class="google-button w-full text-xl py-4 rounded-full font-bold flex items-center justify-center">
-                    <i class="ph-fill ph-google-logo text-xl mr-3"></i> SIGN IN WITH GOOGLE
+            <form id="name-form" class="space-y-4">
+                <input type="text" id="player-name-input" placeholder="Enter Your Name" value="NEEL" required
+                       class="w-full p-4 text-xl rounded-lg bg-sys-blue/70 border-2 border-sys-neon/50 text-sys-text placeholder-gray-500 focus:border-sys-focus-glow outline-none transition">
+                <button type="submit" class="sys-button w-full text-xl py-4">
+                    <i class="ph ph-lightning-fill text-xl mr-2"></i> ACTIVATE SYSTEM
                 </button>
-                
-                <div class="flex items-center justify-center space-x-2 text-sm opacity-60">
-                    <hr class="flex-grow border-sys-card">
-                    <span class="text-sys-text">OR</span>
-                    <hr class="flex-grow border-sys-card">
-                </div>
-
-                <form id="name-form" class="space-y-4">
-                    <input type="text" id="player-name-input" placeholder="Enter Your Name Manually" value="NEEL" required
-                        class="w-full p-4 text-xl rounded-lg bg-sys-blue/70 border-2 border-sys-neon/50 text-sys-text placeholder-gray-500 focus:border-sys-focus-glow outline-none transition">
-                    <button type="submit" class="sys-button w-full text-xl py-4">
-                        <i class="ph ph-lightning-fill text-xl mr-2"></i> ACTIVATE SYSTEM (Manual)
-                    </button>
-                </form>
-            </div>
+            </form>
             <p class="text-xs mt-6 opacity-50">Activation Sequence 1.0.4 | Initializing Core Progression Modules...</p>
         </div>
     </section>
@@ -239,9 +214,6 @@
                     <button id="theme-toggle" class="p-2 rounded-full hover:bg-sys-card transition duration-200" aria-label="Toggle Theme">
                         <i id="theme-icon" class="ph-fill ph-sun text-xl text-sys-text"></i>
                     </button>
-                    <button id="sign-out-button" onclick="signOutUser()" class="p-2 rounded-full hover:bg-red-500/20 transition duration-200" aria-label="Sign Out">
-                        <i class="ph-bold ph-sign-out text-xl text-red-400"></i>
-                    </button>
                     
                     <button id="menu-button" class="md:hidden p-2 rounded-full hover:bg-sys-card transition duration-200" aria-label="Open Menu">
                         <i class="ph-bold ph-list text-2xl text-sys-text"></i>
@@ -259,7 +231,6 @@
                 <a href="#" onclick="navigateTo('quests'); toggleMenu();" class="text-sys-text hover:text-sys-neon transition duration-200 border-b border-sys-card pb-2">MISSIONS</a>
                 <a href="#" onclick="navigateTo('stats'); toggleMenu();" class="text-sys-text hover:text-sys-neon transition duration-200 border-b border-sys-card pb-2">PROGRESSION</a>
                 <a href="#" onclick="navigateTo('cms'); toggleMenu();" class="text-sys-text hover:text-sys-neon transition duration-200 border-b border-sys-card pb-2">SYSTEM EDITOR</a>
-                <button onclick="signOutUser(); toggleMenu();" class="text-left text-red-400 hover:text-red-300 transition duration-200 border-b border-sys-card pb-2">SIGN OUT</button>
             </div>
         </nav>
 
@@ -423,30 +394,8 @@
                                 <ul id="active-events-list" class="text-sm space-y-1 max-h-24 overflow-y-auto"></ul>
                             </div>
                         </div>
-
-                        <div class="sys-card p-6 rounded-xl">
-                            <h3 class="text-xl font-bold mb-4 border-b border-sys-card pb-2">AESTHETIC & LOGIC OVERRIDES</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block font-semibold mb-1">Color Scheme:</label>
-                                    <button onclick="toggleTheme(true)" class="p-2 mr-2 rounded-lg bg-sys-neon/20 hover:bg-sys-neon/40 transition">Dark (Sung Jin Woo)</button>
-                                    <button onclick="toggleTheme(false)" class="p-2 rounded-lg bg-sys-text/20 hover:bg-sys-text/40 transition text-sys-black">Light (Google)</button>
-                                </div>
-
-                                <div>
-                                    <label for="reduction-slider" class="block font-semibold mb-1">Stat Reduction % on Level Up: <span id="reduction-value">75</span>%</label>
-                                    <input type="range" id="reduction-slider" min="10" max="95" value="75" oninput="document.getElementById('reduction-value').innerText = this.value" class="w-full accent-sys-neon">
-                                </div>
-
-                                <div class="pt-4 border-t border-sys-card">
-                                    <label class="block font-semibold mb-1">Watermark Identity Config:</label>
-                                    <input type="text" id="watermark-name" placeholder="Name" class="w-full mb-2 p-2 rounded-lg bg-sys-blue/70 border border-sys-neon/30 outline-none">
-                                    <input type="email" id="watermark-email" placeholder="Email" class="w-full p-2 rounded-lg bg-sys-blue/70 border border-sys-neon/30 outline-none">
-                                    <button onclick="updateWatermark()" class="sys-button w-full mt-2 text-sm bg-gradient-to-r from-green-500 to-green-600">Save Identity/Watermark</button>
-                                </div>
-                            </div>
+                        
                         </div>
-                    </div>
                 </div>
             </section>
             
@@ -463,97 +412,6 @@
 
     </div>
 
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
-
-        // Your web app's Firebase configuration (using your provided data)
-        const firebaseConfig = {
-            apiKey: "AIzaSyB8IKGuQhB5aCmaYNbyyGjGeU254h6EzSM",
-            authDomain: "system-b4c3a.firebaseapp.com",
-            projectId: "system-b4c3a",
-            storageBucket: "system-b4c3a.firebasestorage.app",
-            messagingSenderId: "213811302786",
-            appId: "1:213811302786:web:9405d4bca16895cc3d7f9b",
-            measurementId: "G-Y8RMV23ZT7"
-        };
-        
-        // Log to confirm config is loaded before init
-        console.log("Firebase config loaded successfully."); 
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const analytics = getAnalytics(app); // Keep analytics for completeness
-
-        const provider = new GoogleAuthProvider();
-
-        /**
-         * The core function to initiate Google Sign-In and handle the result.
-         * This function is attached to the Google button in the Start Screen.
-         */
-        window.signInWithGoogleFirebase = async () => {
-            try {
-                // Sign in with popup
-                const result = await signInWithPopup(auth, provider);
-                const user = result.user;
-
-                // Log details and pass to main app logic
-                console.log("✅ Firebase Sign-In Success. User:", user.displayName, user.email);
-
-                // Access the function from the main script block
-                if (window.submitPlayerName) {
-                    // Use the user's display name, email, and UID for the system
-                    window.submitPlayerName(user.displayName || user.email.split('@')[0], user.email, user.uid);
-                }
-
-            } catch (error) {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-
-                console.error("❌ Firebase Google Sign-In Error:", errorMessage, errorCode);
-                if (window.alertUser) {
-                    window.alertUser('AUTH FAILED', 'Sign-in cancelled or failed. Error: ' + errorCode + '. Check Firebase Console for enabled provider.', 'bg-red-700');
-                }
-            }
-        };
-
-        /**
-         * Function to sign the user out of Firebase.
-         * This function is attached to the new Sign Out buttons.
-         */
-        window.signOutUser = async () => {
-            try {
-                await signOut(auth);
-                console.log("User signed out.");
-                if (window.alertUser) {
-                    window.alertUser('SYSTEM OFFLINE', 'You have been logged out. Re-activating system...', 'bg-red-500');
-                }
-                
-                // Reset the application state and reload the start screen
-                window.location.reload(); 
-
-            } catch (error) {
-                console.error("Sign out error:", error);
-                if (window.alertUser) {
-                    window.alertUser('ERROR', 'Sign-out failed: ' + error.message, 'bg-red-700');
-                }
-            }
-        };
-
-        // Attach event listener for the new Google Sign-In button
-        document.addEventListener('DOMContentLoaded', () => {
-            const googleSignInButton = document.getElementById('google-sign-in-button');
-            if (googleSignInButton) {
-                googleSignInButton.addEventListener('click', window.signInWithGoogleFirebase);
-            }
-        });
-    </script>
-
-
     <script>
         // --- CORE DATA STRUCTURES & INITIALIZATION ---
 
@@ -566,12 +424,11 @@
             currentTitle: "Shadow Monarch",
             titleCollection: ["The Initiate"],
             aiFocusStat: null,
-            statReductionPercent: 75, // from CMS slider
+            statReductionPercent: 75, // from CMS slider (now fixed default)
             theme: 'dark',
             watermarkName: "NEEL",
             watermarkEmail: "neel@agency.com",
             isInitialized: false, // NEW FLAG
-            firebaseUID: null, // NEW: Store Firebase UID
         };
 
         let stats = [
@@ -612,12 +469,11 @@
         const startScreen = document.getElementById('start-screen');
         const appContainer = document.getElementById('app-container');
 
-        // Expose to window for the module script to call
-        window.toggleMenu = function() {
+        function toggleMenu() {
             mobileMenu.classList.toggle('open');
         }
 
-        window.navigateTo = function(viewName) {
+        function navigateTo(viewName) {
             if (!gameState.isInitialized) return; // Prevent navigation before initialization
 
             currentView = viewName;
@@ -638,7 +494,7 @@
             }
         }
 
-        window.toggleTheme = function(isDark) {
+        function toggleTheme(isDark) {
             if (typeof isDark === 'boolean') {
                 gameState.theme = isDark ? 'dark' : 'light';
             } else {
@@ -653,13 +509,8 @@
                 themeIcon.className = 'ph-fill ph-moon text-xl text-sys-text';
             }
         }
-
-        window.updateWatermark = function() {
-            gameState.watermarkName = document.getElementById('watermark-name').value || gameState.playerName || "System User";
-            gameState.watermarkEmail = document.getElementById('watermark-email').value || "contact@system.com";
-            document.getElementById('footer-watermark').innerHTML = `SYSTEM MATRIX V4.0 // Designed by ${gameState.watermarkName} // Contact: ${gameState.watermarkEmail}`;
-            window.alertUser('Identity Saved', 'Watermark identity updated successfully.', 'bg-green-500');
-        }
+        
+        // Removed updateWatermark function and its logic as the UI controls were removed.
         
         // --- CORE GAME LOGIC / AI SIMULATION (logic.js) ---
 
@@ -699,9 +550,8 @@
         }
 
         function processLevelUp() {
-            // 1. Get Stat Reduction Percentage from CMS setting
-            const reductionFactor = document.getElementById('reduction-slider').value / 100;
-            gameState.statReductionPercent = parseInt(reductionFactor * 100);
+            // 1. Use Stat Reduction Percentage from gameState (default 75, as the CMS slider was removed)
+            const reductionFactor = gameState.statReductionPercent / 100;
 
             // 2. Stat Scaling: Reduce all stats
             stats.forEach(stat => {
@@ -728,7 +578,7 @@
             }
             gameState.currentTitle = newTitle;
 
-            window.alertUser('LEVEL UP!', `You are now Level ${gameState.level}! New Title: ${newTitle}. Stats were scaled down by ${gameState.statReductionPercent}%.`, 'bg-purple-600');
+            alertUser('LEVEL UP!', `You are now Level ${gameState.level}! New Title: ${newTitle}. Stats were scaled down by ${gameState.statReductionPercent}%.`, 'bg-purple-600');
             console.log(`LEVEL UP! New Level: ${gameState.level}. Old Title: ${oldTitle} -> New Title: ${newTitle}. Stats reduced by ${gameState.statReductionPercent}%`);
         }
 
@@ -751,7 +601,7 @@
             }
         }
 
-        window.completeMission = function(missionId) {
+        function completeMission(missionId) {
             const missionIndex = missions.findIndex(m => m.id === missionId);
             if (missionIndex === -1) return;
 
@@ -766,7 +616,7 @@
             // 2. Remove mission
             missions.splice(missionIndex, 1);
 
-            window.alertUser('MISSION COMPLETE', `+${xpReward} XP awarded! ${mission.name} finished.`, 'bg-green-500');
+            alertUser('MISSION COMPLETE', `+${xpReward} XP awarded! ${mission.name} finished.`, 'bg-green-500');
             console.log(`MISSION COMPLETE: ${mission.name}. Gained ${xpReward} XP and boosted ${statAffected}.`);
             
             // 3. Re-render affected pages
@@ -791,7 +641,7 @@
             // 2. Remove mission (failure means it's gone)
             missions.splice(missionIndex, 1);
 
-            window.alertUser('MISSION FAILED', `-${xpPenalty} XP deducted! ${mission.name} failed.`, 'bg-red-500');
+            alertUser('MISSION FAILED', `-${xpPenalty} XP deducted! ${mission.name} failed.`, 'bg-red-500');
             console.warn(`MISSION FAILED: ${mission.name}. Lost ${xpPenalty} XP and ${statAffected} decreased.`);
             
             // 3. Re-render affected pages
@@ -806,8 +656,7 @@
         function renderIndex() {
             // Player Status Card
             document.getElementById('player-name').innerText = gameState.playerName.toUpperCase();
-            // Use Firebase UID if available, otherwise fallback to default
-            document.getElementById('player-id').innerText = gameState.firebaseUID ? gameState.firebaseUID.substring(0, 8) : gameState.playerId; 
+            document.getElementById('player-id').innerText = gameState.playerId;
             document.getElementById('player-title').innerText = gameState.currentTitle;
             document.getElementById('player-level').innerText = gameState.level;
             document.getElementById('player-xp').innerText = gameState.xp;
@@ -883,7 +732,7 @@
                             <p class="text-xs opacity-50 mt-1">Due: ${deadline.toLocaleString()}</p>
                         </div>
                         <div class="flex space-x-2 ml-4">
-                            <button onclick="window.completeMission('${mission.id}')" class="sys-button px-3 py-1 text-sm bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 transition">
+                            <button onclick="completeMission('${mission.id}')" class="sys-button px-3 py-1 text-sm bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 transition">
                                 <i class="ph ph-check-circle-fill"></i> Done
                             </button>
                         </div>
@@ -912,7 +761,7 @@
 
                 const statCard = document.createElement('div');
                 statCard.className = cardClasses;
-                statCard.setAttribute('onclick', `window.selectStat('${stat.id}')`);
+                statCard.setAttribute('onclick', `selectStat('${stat.id}')`);
                 
                 // Add simple gradient visual
                 const gradientStyle = `height: 4px; background: linear-gradient(90deg, var(--sys-purple), var(--sys-neon)); width: ${Math.min(100, stat.value / 10)}%;`; // Value scaled down for visual
@@ -941,16 +790,16 @@
             document.getElementById('set-focus-button').disabled = selectedStatId === null;
         }
 
-        window.selectStat = function(statId) {
+        function selectStat(statId) {
             selectedStatId = statId;
             renderStats(); // Re-render to apply the 'focused' class
         }
 
-        window.setAIFocus = function() {
+        function setAIFocus() {
             if (selectedStatId) {
                 gameState.aiFocusStat = selectedStatId;
                 selectedStatId = null; // Clear selection after setting focus
-                window.alertUser('AI Focus Set', `System AI will now prioritize ${gameState.aiFocusStat.toUpperCase()} quests.`, 'bg-blue-500');
+                alertUser('AI Focus Set', `System AI will now prioritize ${gameState.aiFocusStat.toUpperCase()} quests.`, 'bg-blue-500');
                 renderStats(); // Re-render to update focus display
                 console.log(`AI Focus set to: ${gameState.aiFocusStat}`);
             }
@@ -958,14 +807,7 @@
 
         // Renders the CMS (System Editor) View
         function renderCMS() {
-            // Update Watermark Config
-            document.getElementById('watermark-name').value = gameState.watermarkName;
-            document.getElementById('watermark-email').value = gameState.watermarkEmail;
-            
-            // Update Stat Reduction Slider
-            const slider = document.getElementById('reduction-slider');
-            slider.value = gameState.statReductionPercent;
-            document.getElementById('reduction-value').innerText = gameState.statReductionPercent;
+            // NOTE: Aesthetic and Logic Overrides section (including Watermark Config and Stat Reduction Slider) has been removed per user request.
 
             // Render CMS Task List (CRUD)
             const cmsTaskList = document.getElementById('cms-task-list');
@@ -979,8 +821,8 @@
                         <div class="flex justify-between items-center sys-card p-3 rounded-lg">
                             <span class="text-sm font-semibold">${mission.name}</span>
                             <div class="flex space-x-2">
-                                <button onclick="window.editMission('${mission.id}')" class="text-blue-400 hover:text-blue-200"><i class="ph ph-pencil-simple text-lg"></i></button>
-                                <button onclick="window.removeMission('${mission.id}')" class="text-red-400 hover:text-red-200"><i class="ph ph-x-circle-fill text-lg"></i></button>
+                                <button onclick="editMission('${mission.id}')" class="text-blue-400 hover:text-blue-200"><i class="ph ph-pencil-simple text-lg"></i></button>
+                                <button onclick="removeMission('${mission.id}')" class="text-red-400 hover:text-red-200"><i class="ph ph-x-circle-fill text-lg"></i></button>
                             </div>
                         </div>
                     `;
@@ -998,12 +840,12 @@
                         <div id="stat-row-${stat.id}" class="flex justify-between items-center sys-card p-3 rounded-lg">
                             <span class="font-semibold">${stat.name}</span>
                             <div class="flex items-center space-x-2">
-                                <select onchange="window.updateStatType('${stat.id}', this.value)" class="p-1 rounded-md bg-sys-blue/70 text-sm">
+                                <select onchange="updateStatType('${stat.id}', this.value)" class="p-1 rounded-md bg-sys-blue/70 text-sm">
                                     <option value="main" ${stat.type === 'main' ? 'selected' : ''}>Main</option>
                                     <option value="complement" ${stat.type === 'complement' ? 'selected' : ''}>Complement</option>
                                 </select>
-                                <button onclick="window.promptEditStatName('${stat.id}')" class="text-yellow-400 hover:text-yellow-200"><i class="ph ph-pencil-simple text-lg"></i></button>
-                                <button onclick="window.removeStat('${stat.id}')" class="text-red-400 hover:text-red-200"><i class="ph ph-trash-fill text-lg"></i></button>
+                                <button onclick="promptEditStatName('${stat.id}')" class="text-yellow-400 hover:text-yellow-200"><i class="ph ph-pencil-simple text-lg"></i></button>
+                                <button onclick="removeStat('${stat.id}')" class="text-red-400 hover:text-red-200"><i class="ph ph-trash-fill text-lg"></i></button>
                             </div>
                         </div>
                     `;
@@ -1018,7 +860,7 @@
                     <li class="flex justify-between items-center">
                         <span class="font-mono">${event.date}</span>
                         <span class="text-xs uppercase px-2 py-1 rounded-full bg-sys-blue/50">${event.type}</span>
-                        <button onclick="window.removeEvent(${index})" class="text-red-400"><i class="ph ph-x text-sm"></i></button>
+                        <button onclick="removeEvent(${index})" class="text-red-400"><i class="ph ph-x text-sm"></i></button>
                     </li>
                 `;
             });
@@ -1050,22 +892,22 @@
             };
 
             missions.push(newMission);
-            window.alertUser('Mission Injected!', `${name} added successfully.`);
+            alertUser('Mission Injected!', `${name} added successfully.`);
             this.reset();
             renderCMS();
             renderQuests();
             renderIndex();
         });
 
-        window.removeMission = function(id) {
+        function removeMission(id) {
             missions = missions.filter(m => m.id !== id);
             renderCMS();
             renderQuests();
             renderIndex();
         }
         
-        window.editMission = function(id) {
-            window.alertUser('Feature Disabled', 'Editing missions is currently blocked by Admin. Please remove and re-inject.');
+        function editMission(id) {
+            alertUser('Feature Disabled', 'Editing missions is currently blocked by Admin. Please remove and re-inject.');
         }
 
         // CMS Stat Handlers
@@ -1086,32 +928,32 @@
 
             stats.push(newStat);
             this.reset();
-            window.alertUser('New Stat Added', `${name} (${type.toUpperCase()}) added to Progression. Value set to 50.`, 'bg-green-500');
+            alertUser('New Stat Added', `${name} (${type.toUpperCase()}) added to Progression. Value set to 50.`, 'bg-green-500');
             renderCMS();
             renderStats();
         });
 
-        window.updateStatType = function(id, newType) {
+        function updateStatType(id, newType) {
             const stat = stats.find(s => s.id === id);
             if (stat) {
                 stat.type = newType;
-                window.alertUser('Stat Type Updated', `${stat.name} is now a ${newType.toUpperCase()} Stat.`);
+                alertUser('Stat Type Updated', `${stat.name} is now a ${newType.toUpperCase()} Stat.`);
                 renderStats();
             }
         }
 
-        window.promptEditStatName = function(id) {
+        function promptEditStatName(id) {
             const stat = stats.find(s => s.id === id);
             if (!stat) return;
-            window.alertUser('Feature Disabled', 'Editing stat names is currently blocked by Admin.');
+            alertUser('Feature Disabled', 'Editing stat names is currently blocked by Admin.');
         }
         
-        window.removeStat = function(id) {
+        function removeStat(id) {
             stats = stats.filter(s => s.id !== id);
             if (gameState.aiFocusStat === id) {
                 gameState.aiFocusStat = null;
             }
-            window.alertUser('Stat Removed', `Stat ID ${id} has been permanently removed from the system.`, 'bg-red-500');
+            alertUser('Stat Removed', `Stat ID ${id} has been permanently removed from the system.`, 'bg-red-500');
             renderCMS();
             renderStats();
         }
@@ -1127,9 +969,9 @@
             // Check if date already exists
             if (!events.find(e => e.date === date)) {
                 events.push({ date, type });
-                window.alertUser('Event Scheduled', `${type.toUpperCase()} scheduled for ${date}.`, 'bg-blue-500');
+                alertUser('Event Scheduled', `${type.toUpperCase()} scheduled for ${date}.`, 'bg-blue-500');
             } else {
-                window.alertUser('Event Exists', 'This date already has a scheduled event.', 'bg-yellow-500');
+                alertUser('Event Exists', 'This date already has a scheduled event.', 'bg-yellow-500');
             }
             
             this.reset();
@@ -1137,10 +979,10 @@
             renderCalendar();
         });
 
-        window.removeEvent = function(index) {
+        function removeEvent(index) {
             const event = events[index];
             events.splice(index, 1);
-            window.alertUser('Event Removed', `${event.type.toUpperCase()} on ${event.date} has been removed.`, 'bg-red-500');
+            alertUser('Event Removed', `${event.type.toUpperCase()} on ${event.date} has been removed.`, 'bg-red-500');
             renderCMS();
             renderCalendar();
         }
@@ -1188,14 +1030,14 @@
             }
         }
 
-        window.changeCalendarMonth = function(offset) {
+        function changeCalendarMonth(offset) {
             currentCalendarDate.setMonth(currentCalendarDate.getMonth() + offset);
             renderCalendar();
         }
 
         // --- CUSTOM ALERT BOX (No native alert/confirm) ---
 
-        window.alertUser = function(title, message, bgColor='bg-sys-neon') {
+        function alertUser(title, message, bgColor='bg-sys-neon') {
             const alertId = 'custom-alert-' + Date.now();
             const alertDiv = document.createElement('div');
             alertDiv.id = alertId;
@@ -1224,13 +1066,17 @@
         }
         
         // --- START SCREEN LOGIC ---
-        // Expose submitPlayerName for the Firebase module to call
-        window.submitPlayerName = function(name, email = null, uid = null) {
+        document.getElementById('name-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('player-name-input').value.trim();
+            if (nameInput) {
+                submitPlayerName(nameInput);
+            }
+        });
+
+        function submitPlayerName(name) {
             gameState.playerName = name.toUpperCase();
-            gameState.watermarkName = name.toUpperCase();
-            if (email) gameState.watermarkEmail = email;
-            if (uid) gameState.firebaseUID = uid;
-            
+            gameState.watermarkName = name.toUpperCase(); // Update watermark identity too
             gameState.isInitialized = true;
             
             // Initialize main app content
@@ -1242,30 +1088,18 @@
             
             setTimeout(() => {
                 startScreen.remove(); // Remove overlay after animation
-                initializeUI(); // <--- RENAMED UI INIT FUNCTION
-                window.alertUser('SYSTEM ACTIVATED', `Welcome, ${name.toUpperCase()}. Preparing your personalized progression matrix.`, 'bg-sys-neon');
+                initializeApp(); // Start the app
+                alertUser('SYSTEM ACTIVATED', `Welcome, ${name.toUpperCase()}. Preparing your personalized progression matrix.`, 'bg-sys-neon');
             }, 500);
         }
-        
-        // Original form submission (Manual)
-        document.getElementById('name-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const nameInput = document.getElementById('player-name-input').value.trim();
-            if (nameInput) {
-                // Call the unified function for manual input
-                window.submitPlayerName(nameInput); 
-            }
-        });
-
 
         // --- INITIALIZATION ---
-        // RENAMED FUNCTION TO AVOID CONFLICT WITH FIREBASE SDK'S initializeApp
-        function initializeUI() { 
-             // Apply initial watermark
-            window.updateWatermark();
+        function initializeApp() {
+             // Apply initial watermark (Logic moved inline, as the updateWatermark function was removed)
+            document.getElementById('footer-watermark').innerHTML = `SYSTEM MATRIX V4.0 // Designed by ${gameState.watermarkName} // Contact: ${gameState.watermarkEmail}`;
             
             // Set initial theme
-            window.toggleTheme(gameState.theme === 'dark'); 
+            toggleTheme(gameState.theme === 'dark'); 
 
             // Initialize all views (rendering their current state)
             renderIndex();
@@ -1274,24 +1108,23 @@
             renderCMS();
 
             // Set the default view to the Dashboard
-            window.navigateTo('index');
+            navigateTo('index');
 
             // Event listener for hamburger menu
-            document.getElementById('menu-button').addEventListener('click', window.toggleMenu);
+            document.getElementById('menu-button').addEventListener('click', toggleMenu);
             
             // Event listener for theme toggle button
-            document.getElementById('theme-toggle').addEventListener('click', () => window.toggleTheme());
+            document.getElementById('theme-toggle').addEventListener('click', () => toggleTheme());
 
-            // Listen for changes on the stat reduction slider
-            document.getElementById('reduction-slider').addEventListener('input', function() {
-                gameState.statReductionPercent = parseInt(this.value);
-            });
+            // The Stat Reduction Slider listener was removed along with the CMS section.
             
             console.log("System Matrix Initialized. Ready for command.");
         }
 
         window.onload = () => {
-            // Since we are showing the start screen by default, we just wait for the user action.
+            // Check if the player name is already set (e.g., in a real app via local storage)
+            // For this simulation, we always show the start screen on load unless the user has already submitted the form
+            // The logic to handle form submission is handled by the event listener above.
         };
     </script>
 </body>
